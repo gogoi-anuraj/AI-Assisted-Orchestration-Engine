@@ -1,0 +1,360 @@
+AI Integration Orchestrator - Logic Explanation
+==============================================
+
+Overview:
+---------
+This project builds an AI-powered system that converts a Business Requirement
+Document (BRD) into API integrations and simulates execution.
+
+Core Flow:
+----------
+BRD (Natural Language)
+    ↓
+AI Parser
+    ↓
+Structured JSON (services + mappings)
+    ↓
+Integration Registry Lookup
+    ↓
+Configuration Generation
+    ↓
+Simulation Engine (Mock APIs)
+    ↓
+UI Output
+
+
+------------------------------------------------------------
+1. BRD PARSER (app/parser/brd_parser.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Convert natural language BRD into structured JSON.
+
+Logic:
+------
+1. Takes raw BRD text as input
+2. Sends it to an LLM (Gemini API) using a predefined prompt
+3. LLM extracts:
+   - Services (KYC, GST, Fraud)
+   - Field mappings (Name → full_name)
+4. Output is returned as JSON
+
+Example:
+--------
+Input:
+"The system must integrate with KYC. Name maps to full_name."
+
+Output:
+{
+  "services": [{"name": "KYC"}],
+  "mappings": [{"source": "Name", "target": "full_name"}]
+}
+
+Key Idea:
+---------
+Use AI to replace manual requirement analysis.
+
+
+------------------------------------------------------------
+2. PROMPT TEMPLATE (prompt_templates.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Guide the LLM to return structured JSON.
+
+Logic:
+------
+- Defines instructions for LLM
+- Ensures consistent output format
+- Avoids ambiguity
+
+Key Idea:
+---------
+Prompt engineering ensures reliable parsing.
+
+
+------------------------------------------------------------
+3. REGISTRY (app/registry/adapters.json + loader)
+------------------------------------------------------------
+
+Purpose:
+--------
+Store available APIs and their versions.
+
+Logic:
+------
+- adapters.json contains:
+    Service → Versions → Endpoints
+
+Example:
+--------
+"KYC": {
+  "v1": {"endpoint": "/kyc/v1"},
+  "v2": {"endpoint": "/kyc/v2"}
+}
+
+- registry_loader.py reads JSON and converts into Python dict
+
+Key Idea:
+---------
+Acts as a service catalog (like an API marketplace).
+
+
+------------------------------------------------------------
+4. CONFIG GENERATOR (app/engine/config_generator.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Convert parsed data into executable integration configuration.
+
+Logic:
+------
+
+Step 1: Normalize service names
+--------------------------------
+- Converts "kyc verification" → "KYC"
+- Ensures consistency with registry
+
+Step 2: Select version
+----------------------
+- Chooses latest version (e.g., v2)
+
+Step 3: Build mapping
+---------------------
+- Uses mapping_engine to map fields
+
+Step 4: Create config
+---------------------
+- Combines:
+    service
+    version
+    endpoint
+    mapping
+
+Example Output:
+---------------
+{
+  "service": "KYC",
+  "version": "v2",
+  "endpoint": "/kyc/v2",
+  "mapping": {...}
+}
+
+Key Idea:
+---------
+Automates integration setup.
+
+
+------------------------------------------------------------
+5. MAPPING ENGINE (app/engine/mapping_engine.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Map source fields to target API fields.
+
+Logic:
+------
+- Takes parsed mappings from LLM
+- Converts into dictionary format
+
+Example:
+--------
+Input:
+[{"source": "Name", "target": "full_name"}]
+
+Output:
+{
+  "Name": "full_name"
+}
+
+Key Idea:
+---------
+Handles schema transformation.
+
+
+------------------------------------------------------------
+6. SIMULATION ENGINE (app/simulation/simulator.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Simulate API execution using mock APIs.
+
+Logic:
+------
+
+Step 1: Generate Dynamic User
+------------------------------
+- Random Name
+- Valid PAN
+- GSTIN derived from PAN
+
+Step 2: Apply Mapping
+----------------------
+- Convert input fields → API format
+
+Example:
+--------
+Name → full_name
+PAN → pan_id
+
+Step 3: Call Mock APIs
+-----------------------
+- KYC API
+- GST API
+- Fraud API
+
+Step 4: Collect Results
+------------------------
+- Store:
+    input
+    transformed_data
+    response
+
+Step 5: Evaluate Success
+------------------------
+Rules:
+- KYC → status must be "verified"
+- GST → gst_valid must be True
+- Fraud → risk_level should not be HIGH
+
+Key Idea:
+---------
+Simulates real API orchestration.
+
+
+------------------------------------------------------------
+7. MOCK APIs (app/simulation/mock_apis.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Simulate real-world API behavior.
+
+Logic:
+------
+
+KYC API:
+- Checks PAN format
+- Returns verified/failed
+
+GST API:
+- Validates GSTIN
+- Returns business details
+
+Fraud API:
+- Generates random risk score
+- Classifies LOW / MEDIUM / HIGH
+
+Key Idea:
+---------
+Mimics external services without real APIs.
+
+
+------------------------------------------------------------
+8. BACKEND (app/main.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Expose system as API.
+
+Logic:
+------
+- Defines endpoint: /simulate
+- Takes BRD input
+- Runs full pipeline:
+    parse → config → simulate
+- Returns results
+
+Key Idea:
+---------
+Makes system usable as a service.
+
+
+------------------------------------------------------------
+9. UI (ui/app.py)
+------------------------------------------------------------
+
+Purpose:
+--------
+Provide user interface using Streamlit.
+
+Logic:
+------
+
+Step 1: Input BRD
+------------------
+- User enters text
+
+Step 2: Run Pipeline
+---------------------
+- Calls:
+    parse_brd()
+    generate_config()
+    simulate_integration()
+
+Step 3: Display Results
+------------------------
+- Parsed output
+- Generated config
+
+Step 4: Show User Data
+-----------------------
+- Displays one user (generated dynamically)
+
+Step 5: Show Service Results
+-----------------------------
+- For each service:
+    transformed data
+    API response
+
+Step 6: Show Overall Status
+---------------------------
+- SUCCESS / FAILED
+
+Key Idea:
+---------
+Visualizes full pipeline clearly.
+
+
+------------------------------------------------------------
+10. DATA FLOW SUMMARY
+------------------------------------------------------------
+
+1. User enters BRD
+2. Parser extracts structured data
+3. Registry provides API info
+4. Config generator builds integration plan
+5. Simulator executes plan
+6. UI displays results
+
+
+------------------------------------------------------------
+11. DESIGN PRINCIPLES
+------------------------------------------------------------
+
+- Modular architecture
+- Separation of concerns
+- AI-driven automation
+- Extensibility (easy to add services)
+- Realistic simulation
+
+
+------------------------------------------------------------
+12. KEY INNOVATIONS
+------------------------------------------------------------
+
+- AI-based requirement parsing
+- Automated config generation
+- Dynamic data simulation
+- End-to-end pipeline visibility
+
+
+------------------------------------------------------------
+END OF FILE
+------------------------------------------------------------

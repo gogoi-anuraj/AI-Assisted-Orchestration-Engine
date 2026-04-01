@@ -1,0 +1,9 @@
+The system must integrate with a KYC provider to verify customer identity.
+GST verification is required for business customers.
+
+Fraud detection integration is optional.
+
+The following data mappings should be applied:
+- Name → full_name
+- PAN → pan_id
+- GSTIN → gst_number

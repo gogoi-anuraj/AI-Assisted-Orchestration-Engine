@@ -1,0 +1,24 @@
+{
+  "KYC": {
+    "v1": {
+      "endpoint": "/kyc/v1/verify",
+      "required_fields": ["name", "pan"]
+    },
+    "v2": {
+      "endpoint": "/kyc/v2/verify",
+      "required_fields": ["full_name", "pan_id"]
+    }
+  },
+  "GST": {
+    "v1": {
+      "endpoint": "/gst/v1/check",
+      "required_fields": ["gst_number"]
+    }
+  },
+  "Fraud": {
+    "v1": {
+      "endpoint": "/fraud/v1/score",
+      "required_fields": ["name", "pan"]
+    }
+  }
+}

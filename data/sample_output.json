@@ -1,0 +1,12 @@
+{
+  "services": [
+    {"name": "KYC", "mandatory": true},
+    {"name": "GST", "mandatory": true},
+    {"name": "Fraud", "mandatory": false}
+  ],
+  "mappings": [
+    {"source": "Name", "target": "full_name"},
+    {"source": "PAN", "target": "pan_id"},
+    {"source": "GSTIN", "target": "gst_number"}
+  ]
+}

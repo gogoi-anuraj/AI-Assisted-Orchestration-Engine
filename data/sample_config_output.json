@@ -1,0 +1,21 @@
+{
+  "integrations": [
+    {
+      "service": "KYC",
+      "version": "v2",
+      "endpoint": "/kyc/v2/verify",
+      "mapping": {
+        "Name": "full_name",
+        "PAN": "pan_id"
+      }
+    },
+    {
+      "service": "GST",
+      "version": "v1",
+      "endpoint": "/gst/v1/check",
+      "mapping": {
+        "GSTIN": "gst_number"
+      }
+    }
+  ]
+}
