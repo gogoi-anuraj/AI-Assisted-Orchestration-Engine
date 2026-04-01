@@ -56,21 +56,44 @@ genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 model = genai.GenerativeModel("gemini-3.1-flash-lite-preview")  # stable + fast
 
 
+
+def fallback_parser(brd_text):
+    """Simple rule-based fallback"""
+    services = []
+    mappings = []
+
+    text = brd_text.lower()
+
+    if "kyc" in text:
+        services.append({"name": "KYC"})
+    if "gst" in text:
+        services.append({"name": "GST"})
+    if "fraud" in text:
+        services.append({"name": "Fraud"})
+
+    if "name" in text:
+        mappings.append({"source": "Name", "target": "full_name"})
+    if "pan" in text:
+        mappings.append({"source": "PAN", "target": "pan_id"})
+    if "gst" in text:
+        mappings.append({"source": "GSTIN", "target": "gst_number"})
+
+    return {"services": services, "mappings": mappings}
+
+
 def parse_brd(brd_text):
     prompt = BRD_PARSER_PROMPT.format(brd_text=brd_text)
 
-    response = model.generate_content(prompt)
-
-    raw_output = response.text.strip()
-
     try:
-        # Clean markdown if present
+        response = model.generate_content(prompt)
+        raw_output = response.text.strip()
+
         if raw_output.startswith("```"):
             raw_output = raw_output.replace("```json", "").replace("```", "").strip()
 
         return json.loads(raw_output)
 
     except Exception as e:
-        print("⚠️ JSON parsing failed:", e)
-        print("Raw output:", raw_output)
-        return raw_output
+        print("⚠️ Gemini failed, using fallback:", e)
+        return fallback_parser(brd_text)
+
