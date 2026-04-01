@@ -1,33 +1,31 @@
-# app/parser/prompt_templates.py
-
 BRD_PARSER_PROMPT = """
-You are an AI system that extracts structured data from a Business Requirement Document (BRD).
+You are an expert system that extracts structured data from a BRD.
 
-Extract:
-1. Services (KYC, GST, Fraud, etc.)
-2. Whether each service is mandatory or optional
-3. Field mappings (source → target)
+Extract the following:
+
+1. Services mentioned (KYC, GST, Fraud)
+2. Field mappings in the format:
+   source → target
+
+IMPORTANT:
+- Always extract ALL mappings explicitly mentioned
+- Do NOT skip any mapping
+- Ensure PAN is mapped if mentioned
+- Ensure GSTIN is mapped if mentioned
 
 Return ONLY valid JSON in this format:
 
 {{
   "services": [
-    {{"name": "KYC", "mandatory": true}}
+    {{"name": "KYC"}},
+    {{"name": "GST"}}
   ],
   "mappings": [
-    {{"source": "Name", "target": "full_name"}}
+    {{"source": "Name", "target": "full_name"}},
+    {{"source": "PAN", "target": "pan_id"}},
+    {{"source": "GSTIN", "target": "gst_number"}}
   ]
 }}
-
-Rules:
-- Do not add explanations
-- Do not add extra text
-- Output strictly JSON
-
-Use ONLY these service names:
-- KYC
-- GST
-- Fraud
 
 BRD:
 {brd_text}
