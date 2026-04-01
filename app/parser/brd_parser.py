@@ -58,12 +58,12 @@ model = genai.GenerativeModel("gemini-3.1-flash-preview")  # stable + fast
 
 
 def fallback_parser(brd_text):
-    """Simple rule-based fallback"""
+    text = brd_text.lower()
+
     services = []
     mappings = []
 
-    text = brd_text.lower()
-
+    # 🔹 Services
     if "kyc" in text:
         services.append({"name": "KYC"})
     if "gst" in text:
@@ -71,14 +71,20 @@ def fallback_parser(brd_text):
     if "fraud" in text:
         services.append({"name": "Fraud"})
 
+    # 🔹 Mappings (robust detection)
     if "name" in text:
         mappings.append({"source": "Name", "target": "full_name"})
+
     if "pan" in text:
         mappings.append({"source": "PAN", "target": "pan_id"})
-    if "gst" in text:
+
+    if "gstin" in text or "gst number" in text or "gst id" in text:
         mappings.append({"source": "GSTIN", "target": "gst_number"})
 
-    return {"services": services, "mappings": mappings}
+    return {
+        "services": services,
+        "mappings": mappings
+    }
 
 
 def parse_brd(brd_text):
