@@ -53,7 +53,7 @@ load_dotenv()
 genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 # Load model
-model = genai.GenerativeModel("gemini-3.1-flash-lite-preview")  # stable + fast
+model = genai.GenerativeModel("gemini-3.1-flash-preview")  # stable + fast
 
 
 
