@@ -1,6 +1,6 @@
-# 🚀 AI Integration Orchestrator
+#  AI Integration Orchestrator
 
-## 📌 Project Overview
+##  Project Overview
 
 The **AI Integration Orchestrator** is an intelligent system that automates the process of converting a **Business Requirement Document (BRD)** into:
 
@@ -8,11 +8,11 @@ The **AI Integration Orchestrator** is an intelligent system that automates the 
 * API integration configurations
 * Simulated execution results
 
-👉 It eliminates manual integration effort and enables rapid onboarding of enterprise systems.
+ It eliminates manual integration effort and enables rapid onboarding of enterprise systems.
 
 ---
 
-## ❗ Problem Statement
+##  Problem Statement
 
 In enterprise environments:
 
@@ -25,16 +25,16 @@ In enterprise environments:
   * Build integrations
   * Test APIs
 
-### 🔴 Challenges
+###  Challenges
 
-* Time-consuming ⏳
-* Error-prone ❌
-* Requires domain expertise 🧠
-* Hard to scale 📈
+* Time-consuming 
+* Error-prone 
+* Requires domain expertise 
+* Hard to scale 
 
 ---
 
-## 💡 Proposed Solution
+##  Proposed Solution
 
 We built an **AI-driven orchestration platform**:
 
@@ -44,7 +44,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-## 🧠 System Architecture
+##  System Architecture
 
 ```text
           ┌──────────────┐
@@ -74,11 +74,11 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-## 🧱 Development Phases
+##  Development Phases
 
 ---
 
-### 🔹 Phase 0: Planning & Setup
+###  Phase 0: Planning & Setup
 
 * Defined problem scope
 * Designed system architecture
@@ -87,7 +87,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-### 🔹 Phase 1: BRD Parsing Engine (AI Layer)
+###  Phase 1: BRD Parsing Engine (AI Layer)
 
 **Goal:** Convert natural language into structured data
 
@@ -113,7 +113,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-### 🔹 Phase 2: Integration Registry
+###  Phase 2: Integration Registry
 
 **Goal:** Maintain a catalog of available APIs
 
@@ -137,7 +137,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-### 🔹 Phase 3: Auto-Configuration Engine
+###  Phase 3: Auto-Configuration Engine
 
 **Goal:** Generate integration configs automatically
 
@@ -165,7 +165,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-### 🔹 Phase 4: Simulation & Testing Framework
+###  Phase 4: Simulation & Testing Framework
 
 **Goal:** Simulate real API behavior
 
@@ -191,7 +191,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-### 🔹 Phase 5: Backend APIs (FastAPI)
+###  Phase 5: Backend APIs (FastAPI)
 
 **Goal:** Expose system as API
 
@@ -207,7 +207,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-### 🔹 Phase 6: UI Development (Streamlit)
+###  Phase 6: UI Development (Streamlit)
 
 **Goal:** Build interactive frontend
 
@@ -223,7 +223,7 @@ BRD → AI Parsing → Config Generation → Simulation → UI Output
 
 ---
 
-## 📂 Project Structure
+##  Project Structure
 
 ```text
 AI_orchestrator/
@@ -243,7 +243,7 @@ AI_orchestrator/
 
 ---
 
-## ⚙️ Installation Guide
+##  Installation Guide
 
 ### 1. Clone Repository
 
@@ -281,7 +281,7 @@ GEMINI_API_KEY=your_api_key_here
 
 ---
 
-## 🚀 Running the Project
+##  Running the Project
 
 ### Run UI
 
@@ -299,7 +299,7 @@ uvicorn app.main:app --reload
 
 ---
 
-## 🧪 Example Input
+##  Example Input
 
 ```text
 The system must integrate with KYC and GST.
@@ -308,7 +308,7 @@ Name maps to full_name. PAN maps to pan_id.
 
 ---
 
-## ✅ Example Output
+##  Example Output
 
 ```json
 {
@@ -318,7 +318,7 @@ Name maps to full_name. PAN maps to pan_id.
 
 ---
 
-## 🔄 Real-World Applicability
+##  Real-World Applicability
 
 This system can be used for:
 
@@ -329,7 +329,7 @@ This system can be used for:
 
 ---
 
-## 🔥 Key Features
+##  Key Features
 
 * AI-driven requirement understanding
 * Automated configuration generation
@@ -339,7 +339,7 @@ This system can be used for:
 
 ---
 
-## 🚀 Future Enhancements
+##  Future Enhancements
 
 * Real API integration
 * Authentication & security
@@ -349,18 +349,8 @@ This system can be used for:
 
 ---
 
-## 🏆 Conclusion
+##  Conclusion
 
 The AI Integration Orchestrator demonstrates how AI can transform natural language requirements into executable integration pipelines, significantly improving efficiency and scalability in enterprise systems.
 
 ---
-
-## 👨‍💻 Author
-
-Anuraj Gogoi
-
----
-
-## 📜 License
-
-MIT License
